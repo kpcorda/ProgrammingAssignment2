@@ -49,15 +49,51 @@ cacheSolve <- function(x, ...)
 {
      # Return a matrix that is the inverse of 'x'
      
+     # Get the cached output of the inverse of the matrix
       inverseMatrix <- x$getInverseMatrix()
+     # If the cached output exists, return it 
         if(!is.null(inverseMatrix)) {
                 message("Getting cached data!")
                 return(inverseMatrix)
         }
+        # Get the matrix
         matrix <- x$getMatrix()
         # The inverse of a square matrix can be done with the solve function in R.
         inverseMatrix <- solve(matrix)
+        # Store inverse of the matrix
         x$setInverseMatrix(inverseMatrix)
+        # Return inverse of the matrix
         inverseMatrix
+        
 }
 
+## Sample Output:
+
+# Consider a matrix x
+# > x = rbind(c(1, 2, 3), c(3, 1, 2), c(2, 3, 1))
+
+# Call the makeCacheMatrix function
+# > m = makeCacheMatrix(x)
+
+# Display the matrix
+# > m$getMatrix()
+#      [,1] [,2] [,3]
+# [1,]    1    2    3
+# [2,]    3    1    2
+# [3,]    2    3    1
+
+# Calculate and display inverse of the matrix for the first time.
+# > cacheSolve(m)
+#             [,1]        [,2]        [,3]
+# [1,] -0.27777778  0.38888889  0.05555556
+# [2,]  0.05555556 -0.27777778  0.38888889
+# [3,]  0.38888889  0.05555556 -0.27777778
+
+#Take it from the cache for the remaining runs of the program. 
+# > cacheSolve(m)
+# Getting cached data!
+#             [,1]        [,2]        [,3]
+# [1,] -0.27777778  0.38888889  0.05555556
+# [2,]  0.05555556 -0.27777778  0.38888889
+# [3,]  0.38888889  0.05555556 -0.27777778
+# > 
