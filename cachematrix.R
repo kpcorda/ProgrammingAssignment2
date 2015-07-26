@@ -30,7 +30,7 @@ makeCacheMatrix <- function(x = matrix())
         setInverseMatrix <- function(solve) inverseMatrix <<- solve
         # get the value of the inverse of the matrix
         getInverseMatrix <- function() inverseMatrix
-        
+        # returns list
         list(setMatrix = setMatrix, 
              getMatrix = getMatrix,
              setInverseMatrix = setInverseMatrix,
@@ -45,9 +45,19 @@ makeCacheMatrix <- function(x = matrix())
 
 # Assumption: The matrix supplied is always a square invertible matrix.
 
-cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+cacheSolve <- function(x, ...) 
+{
+     # Return a matrix that is the inverse of 'x'
+     
+      inverseMatrix <- x$getInverseMatrix()
+        if(!is.null(inverseMatrix)) {
+                message("Getting cached data!")
+                return(inverseMatrix)
+        }
+        matrix <- x$getMatrix()
+        # The inverse of a square matrix can be done with the solve function in R.
+        inverseMatrix <- solve(matrix)
+        x$setInverseMatrix(inverseMatrix)
+        inverseMatrix
 }
 
-Computing the inverse of a square matrix can be done with the solve function in R. 
-For example, if X is a square invertible matrix, then solve(X) returns its inverse.
